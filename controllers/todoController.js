@@ -3,15 +3,15 @@ const Todo = require('./../models/todoModel');
 
 const getAllTodo = async (req, res) => {
     try {
-        const allTodo = await Todo.findAll()
+        const allTodo = await Todo.find()
         res.writeHead(200, { 'Content-Type': 'application/json' })
-        res.send(JSON.stringify(allTodo))
+        res.end(JSON.stringify(allTodo))
     } catch (error) {
         console.log(error);
     }
 }
 
 
-module.exports={
+module.exports = {
     getAllTodo
 }

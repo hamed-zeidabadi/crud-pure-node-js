@@ -1,7 +1,9 @@
 const http = require('http');
-
+const { getAllTodo } = require('./controllers/todoController');
 const server = http.createServer((req, res) => {
-
+    if (req.url === '/api/todo' && req.method === 'GET') {
+        getAllTodo(req, res)
+    }
 });
 
 
