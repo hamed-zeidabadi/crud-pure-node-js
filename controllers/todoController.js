@@ -61,49 +61,44 @@ const updateTodoById = async (req, res, id) => {
             let body = '';
             req.on('data', (c) => {
                 body += c.toString();
-            })
+            });
             req.on('end', async () => {
-                const { title, todo, isActive } = JSON.parse(body)
+                const { title, todo, isActive } = JSON.parse(body);
                 const newTodo = {
                     title: title || todoItems.title,
                     todo: todo || todoItems.todo,
                     isActive: isActive || todoItems.isActive
-                }
-                const updateTodo = await Todo.update(id, newTodo)
-                await res.writeHead(201, { 'Content-Type': 'application/json' })
-                await res.end(JSON.stringify(updateTodo))
+                };
+                const updateTodo = await Todo.update(id, newTodo);
+                await res.writeHead(201, { 'Content-Type': 'application/json' });
+                await res.end(JSON.stringify(updateTodo));
             })
-
         }
     } catch (error) {
         console.log(error);
     }
+}
 
-
-    const deleteTodoById = async (req, res, id) => {
-        try {
-            const todoItems = await Todo.findByID(id);
-            if (!todoItems) {
-                res.writeHead(404, { 'Content-Type': 'application/json' })
-                res.end(JSON.stringify({ message: 'Todo Not Found !' }))
-            } else {
-
-
-                await Todo.remove(id)
-                await res.writeHead(201, { 'Content-Type': 'application/json' })
-                await res.end(JSON.stringify({ message: `${id} removed !` }))
-
-            }
-        } catch (error) {
-            console.log(error);
-        };
-
-    }
-
-    module.exports = {
-        getAllTodo,
-        getTodoById,
-        createTodo,
-        updateTodoById,
-        deleteTodoById
+const deleteTodoById = async (req, res, id) => {
+    try {
+        const todoItems = await Todo.findByID(id);
+        if (!todoItems) {
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: 'Todo Not Found !' }));
+        } else {
+            await Todo.remove(id);
+            await res.writeHead(201, { 'Content-Type': 'application/json' });
+            await res.end(JSON.stringify({ message: `${id} removed !` }));
+        }
+    } catch (error) {
+        console.log(error);
     };
+}
+
+module.exports = {
+    getAllTodo,
+    getTodoById,
+    createTodo,
+    updateTodoById,
+    deleteTodoById
+}

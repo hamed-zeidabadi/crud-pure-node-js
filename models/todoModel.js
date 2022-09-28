@@ -33,10 +33,10 @@ const update = (id, todo) => {
     })
 }
 
-const remove = (id, todo) => {
+const remove = (id) => {
     return new Promise((resolve, reject) => {
-        todoList = todoList.filter((p) => p.id !== id);
-        writeData('./data/todos.json', todoList);
+        const newTodoList = todoList.filter((p) => p.id !== id);
+        writeData('./data/todos.json', newTodoList);
         resolve()
     })
 }
