@@ -33,7 +33,15 @@ const update = (id, todo) => {
     })
 }
 
+const remove = (id, todo) => {
+    return new Promise((resolve, reject) => {
+        todoList = todoList.filter((p) => p.id !== id);
+        writeData('./data/todos.json', todoList);
+        resolve()
+    })
+}
+
 
 module.exports = {
-    findAll, findByID, create, update
+    findAll, findByID, create, update, remove
 }

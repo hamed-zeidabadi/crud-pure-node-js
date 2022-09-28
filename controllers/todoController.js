@@ -78,9 +78,32 @@ const updateTodoById = async (req, res, id) => {
     } catch (error) {
         console.log(error);
     }
-}
 
 
-module.exports = {
-    getAllTodo, getTodoById, createTodo, updateTodoById
-}
+    const deleteTodoById = async (req, res, id) => {
+        try {
+            const todoItems = await Todo.findByID(id);
+            if (!todoItems) {
+                res.writeHead(404, { 'Content-Type': 'application/json' })
+                res.end(JSON.stringify({ message: 'Todo Not Found !' }))
+            } else {
+
+
+                await Todo.remove(id)
+                await res.writeHead(201, { 'Content-Type': 'application/json' })
+                await res.end(JSON.stringify({ message: `${id} removed !` }))
+
+            }
+        } catch (error) {
+            console.log(error);
+        };
+
+    }
+
+    module.exports = {
+        getAllTodo,
+        getTodoById,
+        createTodo,
+        updateTodoById,
+        deleteTodoById
+    };
