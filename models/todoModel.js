@@ -1,4 +1,6 @@
 const todoList = require('../data/todos.json');
+const { writeData } = require('../fs');
+
 
 const findAll = () => {
     return new Promise((resolve, reject) => {
@@ -13,6 +15,25 @@ const findByID = (id) => {
     })
 }
 
+const create = (todo) => {
+    return new Promise((resolve, reject) => {
+        const newTodo = { id: String(todoList.length + 1), ...todo }
+        todoList.push(newTodo)
+        writeData('./data/todos.json', todoList);
+        resolve(newTodo)
+    })
+}
+
+const update = (id, todo) => {
+    return new Promise((resolve, reject) => {
+        const idx = todoList.findIndex((p) => p.id === id);
+        todoList[idx] = { id, ...todo }
+        writeData('./data/todos.json', todoList);
+        resolve(todoList[idx])
+    })
+}
+
+
 module.exports = {
-    findAll, findByID
+    findAll, findByID, create, update
 }

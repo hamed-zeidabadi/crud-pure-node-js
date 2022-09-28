@@ -1,15 +1,20 @@
 const http = require('http');
-const { getAllTodo, getTodoById } = require('./controllers/todoController');
+const { getAllTodo, getTodoById, createTodo, updateTodoById } = require('./controllers/todoController');
+
 
 const server = http.createServer((req, res) => {
     if (req.url === '/api/todo' && req.method === 'GET') {
-        getAllTodo(req, res)
-        console.log('all');
+        getAllTodo(req, res);
 
     } else if (req.url.match(/\/api\/todo\/([0-9]+)/) && req.method === 'GET') {
         const id = req.url.split('/')[3]
-        console.log('by id', id);
-        getTodoById(req, res, id)
+        getTodoById(req, res, id);
+    } else if (req.url === '/api/todo' && req.method === 'POST') {
+        createTodo(req, res);
+    } else if (req.url.match(/\/api\/todo\/([0-9]+)/) && req.method === 'PUT') {
+        const id = req.url.split('/')[3]
+        updateTodoById(req, res, id);
+        console.log('id:',id);
     } else {
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ message: 'Not Found' }));
