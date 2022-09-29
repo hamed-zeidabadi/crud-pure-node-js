@@ -33,7 +33,7 @@ function addItem(e) {
     if (val && !editFlag) {
         createListItem(id, val)
         clearBtn.classList.remove('d-none')
-        displayAlert("item added to the list", "success")
+        displayAlert("با موفقیت ثبت شد", "success")
 
         //set local storage
         addToLocalStorage(id, val);
@@ -42,7 +42,7 @@ function addItem(e) {
     }
     else if (val && editFlag) { //4to B
         editElement.innerText = val;
-        displayAlert("value changed", "success");
+        displayAlert("با موفقیت آپدیت شد !", "success");
 
         // LS
         editLS(editID, val)
@@ -54,7 +54,7 @@ function addItem(e) {
         })
     }
     else {
-        displayAlert("please enter a value", "danger")
+        displayAlert("لطفا چیزی بنویسید !", "danger")
     }
 }
 function displayAlert(text, action) {
@@ -90,7 +90,7 @@ function setBackToDefault() {
     entry.value = null;
     editFlag = false;
     editID = "";
-    submitBtn.textContent = "submit";
+    submitBtn.textContent = "ثبت";
     cancelBtn.classList.add('d-none')
 }
 
@@ -103,7 +103,7 @@ function clearItems() {
             ul.removeChild(li)
         })
     }
-    displayAlert("empty list", "danger");
+    displayAlert("لیست خالیه :(", "danger");
     setBackToDefault();
 
     // you can use  localStorage.removeItem("list"); pero se´re más semántico
@@ -130,7 +130,7 @@ function editItem() {
     editID = p_text.parentNode.dataset.id;
 
     //btn
-    submitBtn.innerText = "Edit";
+    submitBtn.innerText = "ویرایش";
     cancelBtn.classList.remove('d-none')
     clearBtn.classList.add('d-none')
     document.querySelectorAll('.fas').forEach(i => {
@@ -146,7 +146,7 @@ function trashItem() {
     if (ul.children.length === 0) {
         clearBtn.classList.add('d-none')
     }
-    displayAlert("item removed", "danger");
+    displayAlert("با موفقیت پاک شد !", "danger");
     setBackToDefault();
 
     // LS
