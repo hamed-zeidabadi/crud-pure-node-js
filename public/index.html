@@ -6,17 +6,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لیست کارهای روزانه</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="form">
-            <input type="text" class="input" />
-            <input type="submit" class="add" value="Add Task" />
+    <main>
+        <form class="top">
+            <p class="alert"></p>
+            <h3 class="title">Todo List</h3>
+            <div class="control">
+                <input type="text" id="entry" placeholder="e.g. some stuffs">
+                <button type="submit" class="btn submit-btn">Submit</button>
+                <button type="button" class="btn cancel-btn d-none">Cancel</button>
+            </div>
+        </form>
+
+        <div class="bottom">
+            <ul class="list-container">
+                <!-- <li class="list-item">
+                    <p class="text">Lorem ipsum dolor sit.</p>
+                    <i class="fas fa-edit"></i>
+                    <i class="fas fa-check"></i>
+                    <i class="fas fa-trash-alt"></i>
+                </li> -->
+            </ul>
+            <button class="btn clear-btn d-none">Clear Items</button>
         </div>
-        <div class="tasks"></div>
-        <div class="delete-all">Delete all</div>
-    </div>
+    </main>
+    <script src="fontawesome.js"></script>
+    <script src="main.js"></script>
+
 </body>
 
 </html>

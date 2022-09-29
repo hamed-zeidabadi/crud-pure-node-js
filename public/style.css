@@ -1,98 +1,162 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200&display=swap");
+
+*,
+::after,
+::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    background: #cdcdcd;
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: "Poppins", sans-serif;
 }
 
-.container {
-    width: 500px;
-    margin: 20px auto;
+main {
+    width: 90vw;
+    margin: 0 auto;
+    max-width: 35rem;
+    margin-top: 8rem;
+    background: #222;
+    color: #eee;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 1em;
+    padding: 2rem;
 }
 
-.form {
-    background-color: #eee;
-    border-radius: 6px;
-    padding: 20px;
+.alert {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+    border-radius: 0.25rem;
+    font-size: 0.7rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.alert-danger {
+    color: #c0111f;
+    background-color: #f78d96;
+}
+
+.alert-success {
+    color: #0daa61;
+    background-color: #bce5d3;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 0.7rem;
+}
+
+.control {
     display: flex;
-    align-items: center;
+    justify-content: center;
 }
 
-.input {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    flex: 1;
-}
-
-.input:focus,
-.add:focus {
+#entry {
     outline: none;
+    border: 1px solid #eee;
+    background: #222;
+    color: #eee;
+    border-radius: 0.5rem 0 0 0.5rem;
+    font-size: 1rem;
+    padding: 0.3rem 0.7rem;
+    flex: 1;
+    font-family: "Poppins", sans-serif;
 }
 
-.add {
-    border: none;
-    background-color: #f44336;
-    color: white;
-    padding: 10px;
-    border-radius: 6px;
-    margin-left: 10px;
+.btn {
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+}
+
+.submit-btn,
+.cancel-btn {
+    outline: none;
+    border: 1px solid #eee;
+    background-color: #222;
+    color: #eee;
+    font-size: 0.9rem;
+    padding: 0.3rem 0.7rem;
+    flex: 0 0 0.5rem;
     cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
 }
 
-.tasks {
+.submit-btn:hover,
+.cancel-btn:hover {
     background-color: #eee;
-    margin-top: 20px;
-    border-radius: 6px;
-    padding: 20px;
+    color: #222;
 }
 
-.tasks .task {
-    background-color: white;
-    padding: 10px;
-    border-radius: 6px;
+.bottom {
+    margin-top: 2rem;
+    transition: all 0.3s linear;
+}
+
+.list-item {
+    border-bottom: 1px solid #eee;
+    list-style: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: 0.3s;
+    padding: 0.5rem 0.9rem 0.5rem 0.4rem;
+}
+
+.list-item:hover i.fas {
+    opacity: 1;
+}
+
+.text {
+    width: 80%;
+}
+
+.done {
+    text-decoration: line-through;
+}
+
+i.fas {
+    opacity: 0;
     cursor: pointer;
-    border: 1px solid #ccc;
+    transition: all 0.3s linear;
 }
 
-.tasks .task:not(:last-child) {
-    margin-bottom: 15px;
+i.fas.fa-edit:hover {
+    color: #43c1fc;
 }
 
-.tasks .task:hover {
-    background-color: #f7f7f7;
+i.fas.fa-trash-alt:hover {
+    color: #ec3948;
 }
 
-.tasks .task.done {
-    opacity: 0.5;
-    position: relative;
+i.fas.fa-check:hover {
+    color: #39ec99;
 }
 
-.task.done::after {
-    position: absolute;
-    content: "";
-}
-
-.tasks .task span {
-    font-weight: bold;
-    font-size: 10px;
-    background-color: red;
-    color: white;
-    padding: 2px 6px;
-    border-radius: 4px;
+.clear-btn {
+    border: none;
+    outline: none;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    padding: 0.3rem 0.7rem;
     cursor: pointer;
+    color: #c0111f;
+    background-color: #f78d96;
+    width: 10rem;
+    display: block;
+    margin: 1.2rem auto 0;
 }
 
-.delete-all {
-    width: calc(100% - 25px);
-    margin: auto;
-    padding: 12px;
-    text-align: center;
-    font-size: 14px;
-    color: white;
-    background-color: #f44336;
-    margin-top: 20px;
-    cursor: pointer;
-    border-radius: 4px;
+/* JS CLASSES*/
+.v-none {
+    visibility: hidden;
+}
+
+.d-none {
+    display: none;
 }

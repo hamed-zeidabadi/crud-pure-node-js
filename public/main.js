@@ -1,125 +1,192 @@
-let inputEle = document.querySelector(".input");
-let submitEle = document.querySelector(".add");
-let tasksDiv = document.querySelector(".tasks")
-let containerDiv = document.querySelector(".container")
-let deleteAll = document.querySelector(".delete-all");
-let arrayOfTasks = [];
-// console.log(inputEle)
+const form = document.querySelector('form.top')
+const alert_p = document.querySelector('p.alert')
+const entry = document.getElementById('entry')
+const submitBtn = document.querySelector('.submit-btn')
+const ul = document.querySelector('.list-container')
+const clearBtn = document.querySelector('.clear-btn')
+const cancelBtn = document.querySelector('.cancel-btn')
+// edit option
+let editElement;
+let editFlag = false;
+let editID = "";
 
-if (window.localStorage.getItem("tasks")) {
-    arrayOfTasks = JSON.parse(window.localStorage.getItem("tasks"))
-}
-getTaskFromLocalStorage();
-
-submitEle.onclick = function () {
-    if (inputEle.value !== "") {
-        addTaskToArray(inputEle.value);
-        inputEle.value = "";
-    }
-}
-
-function addTaskToArray(taskText) {
-    const task = {
-        id: Date.now(),
-        title: taskText,
-        complated: false,
-    };
-    arrayOfTasks.push(task);
-    // console.log(arrayOfTasks);
-    addTaskToPage(arrayOfTasks);
-
-    addTaskToLocalStorage(arrayOfTasks);
-}
-
-function addTaskToPage(arrayOfTasks) {
-    tasksDiv.innerHTML = "";
-
-    arrayOfTasks.forEach((task) => {
-        let div = document.createElement("div");
-        div.className = "task";
-        if (task.complated) {
-            div.className = "task done";
-        }
-        div.setAttribute("data-id", task.id);
-        div.appendChild(document.createTextNode(task.title));
-        let span = document.createElement("span");
-        span.className = "del";
-        span.appendChild(document.createTextNode("Delete"))
-        div.appendChild(span);
-        tasksDiv.appendChild(div)
-        // console.log(div)
-    });
-}
-
-
-function addTaskToLocalStorage(arrayOfTasks) {
-    window.localStorage.setItem("tasks", JSON.stringify(arrayOfTasks));
-}
-function getTaskFromLocalStorage() {
-    let data = window.localStorage.getItem("tasks")
-    if (data) {
-        let tasks = JSON.parse(data);
-        // console.log(tasks)
-        addTaskToPage(tasks);
-    }
-}
-
-function addElementsToPageFrom(arrayOfTasks) {
-    // Empty Tasks Div
-    tasksDiv.innerHTML = "";
-    // Looping On Array Of Tasks
-    arrayOfTasks.forEach((task) => {
-        // Create Main Div
-        let div = document.createElement("div");
-        div.className = "task";
-        // Check If Task is Done
-        if (task.completed) {
-            div.className = "task done";
-        }
-        div.setAttribute("data-id", task.id);
-        div.appendChild(document.createTextNode(task.title));
-        // Create Delete Button
-        let span = document.createElement("span");
-        span.className = "del";
-        span.appendChild(document.createTextNode("Delete"));
-        // Append Button To Main Div
-        div.appendChild(span);
-        // Add Task Div To Tasks Container
-        tasksDiv.appendChild(div);
-    });
-}
-
-// Click On Task Element
-tasksDiv.onclick = ((e) => {
-    if (e.target.classList.contains("del")) {
-        // e.target.parentElement.remove();
-        e.target.parentElement.remove();
-        deleteTaskFromLocalStorage(e.target.parentElement.getAttribute("data-id"));
-    }
-    if (e.target.classList.contains("task")) {
-        e.target.classList.toggle("done");
-        updateStatusInLocalStorage(e.target.getAttribute("data-id"));
-    }
+// submit form
+form.addEventListener("submit", addItem);
+//clear list
+clearBtn.addEventListener('click', clearItems);
+// display items onload from localstorage DB
+window.addEventListener("DOMContentLoaded", setupItems);
+//cancel edit
+cancelBtn.addEventListener('click', () => {
+    setBackToDefault()
+    clearBtn.classList.remove('d-none')
+    document.querySelectorAll('.fas').forEach(i => {
+        i.classList.remove('v-none')
+    })
 })
 
+function addItem(e) {
+    e.preventDefault();
+    let val = entry.value;
+    let id = new Date().getTime().toString()
 
-function deleteTaskFromLocalStorage(taskId) {
-    arrayOfTasks = arrayOfTasks.filter((task) => task.id != taskId);
-    addTaskToLocalStorage(arrayOfTasks);
+    if (val && !editFlag) {
+        createListItem(id, val)
+        clearBtn.classList.remove('d-none')
+        displayAlert("item added to the list", "success")
+
+        //set local storage
+        addToLocalStorage(id, val);
+
+        setBackToDefault();
+    }
+    else if (val && editFlag) { //4to B
+        editElement.innerText = val;
+        displayAlert("value changed", "success");
+
+        // LS
+        editLS(editID, val)
+
+        setBackToDefault();
+        clearBtn.classList.remove('d-none')
+        document.querySelectorAll('.fas').forEach(i => {
+            i.classList.remove('v-none')
+        })
+    }
+    else {
+        displayAlert("please enter a value", "danger")
+    }
 }
-function updateStatusInLocalStorage(taskId) {
-    arrayOfTasks.forEach((task) => {
-        if (task.id == taskId)
-            task.complated == false ? task.complated = true : task.complated = false;
-    });
-
-    addTaskToLocalStorage(arrayOfTasks);
+function displayAlert(text, action) {
+    alert_p.textContent = text;
+    alert_p.classList.add(`alert-${action}`)
+    //remove alert
+    setTimeout(() => {
+        alert_p.textContent = '';
+        alert_p.classList.remove(`alert-${action}`)
+    }, 1000)
 }
 
-deleteAll.onclick = function (e) {
-    tasksDiv.innerHTML = "";
-    window.localStorage.removeItem("tasks")
+function createListItem(id, val) {
+    let li = document.createElement('li')
+    li.className = 'list-item';
+    li.setAttribute('data-id', id);
+    li.innerHTML = `
+        <p class="text">${val}</p>
+        <i class="fas fa-edit"></i>
+        <i class="fas fa-check"></i>
+        <i class="fas fa-trash-alt"></i>`;
+    //icons
+    const check = li.querySelector('.fas.fa-check');
+    check.addEventListener('click', checkItem)
+    const edit = li.querySelector('.fas.fa-edit');
+    edit.addEventListener('click', editItem)
+    const trash = li.querySelector('.fas.fa-trash-alt');
+    trash.addEventListener('click', trashItem)
+
+    ul.append(li);
+}
+function setBackToDefault() {
+    entry.value = null;
+    editFlag = false;
+    editID = "";
+    submitBtn.textContent = "submit";
+    cancelBtn.classList.add('d-none')
 }
 
+//2do
+function clearItems() {
+    clearBtn.classList.add('d-none')
+    let lis = document.querySelectorAll('.list-item')
+    if (lis.length > 0) {
+        lis.forEach(li => {
+            ul.removeChild(li)
+        })
+    }
+    displayAlert("empty list", "danger");
+    setBackToDefault();
 
+    // you can use  localStorage.removeItem("list"); pero se´re más semántico
+    localStorage.clear(); //mueve todos los keys.. en este caso solo un key que es "list"
+}
+//3ro icons actions
+function checkItem() {
+    let parent = this.parentNode;
+    let p_text = parent.querySelector('.text')
+    let edit = parent.querySelector('.fas.fa-edit')
+    p_text.classList.toggle('done')
+    edit.classList.toggle('v-none')
+}
+function editItem() {
+    //4to A
+    let p_text = this.previousElementSibling; //p.text
+    //set editElement
+    editElement = p_text;
+    //ser entry value
+    entry.value = p_text.innerText;
+    editFlag = true;
 
+    //for LS
+    editID = p_text.parentNode.dataset.id;
+
+    //btn
+    submitBtn.innerText = "Edit";
+    cancelBtn.classList.remove('d-none')
+    clearBtn.classList.add('d-none')
+    document.querySelectorAll('.fas').forEach(i => {
+        i.classList.add('v-none')
+    })
+}
+function trashItem() {
+    let parent = this.parentNode;
+    let id = parent.dataset.id;
+    console.log(parent)
+    ul.removeChild(parent); /* si usas solo "remove" pues te vuela TODOS LOS HIJOS 
+    es por eso que uso removeChild para mover el seleccionado solamente*/
+    if (ul.children.length === 0) {
+        clearBtn.classList.add('d-none')
+    }
+    displayAlert("item removed", "danger");
+    setBackToDefault();
+
+    // LS
+    removeFromLS(id);
+}
+
+/* ///// LOCAL STORAGE //////////// */
+function addToLocalStorage(id, val) {
+    let object = { id, val } // ES6 {id:id, value:value}
+    let items = getLocalStorage()
+    items.push(object)
+    // https://www.w3schools.com/jsref/met_storage_setitem.asp
+    localStorage.setItem('list', JSON.stringify(items))
+}
+function removeFromLS(id) {
+    let items = getLocalStorage()
+    items = items.filter(item => (item.id !== id) && item)
+    //updateing LS
+    localStorage.setItem('list', JSON.stringify(items))
+}
+function editLS(editID, val) {
+    let items = getLocalStorage()
+    items = items.map(item => {
+        if (item.id === editID) item.val = val;
+        return item
+    })
+    localStorage.setItem('list', JSON.stringify(items))
+}
+function getLocalStorage() {
+    return localStorage.getItem('list')
+        ? JSON.parse(localStorage.getItem('list'))
+        : []
+}
+//LOAD CONTENT
+function setupItems() {
+    let items = getLocalStorage()
+    if (items.length > 0) {
+        items.forEach(item => {
+            createListItem(item.id, item.val)
+        })
+        clearBtn.classList.remove('d-none')
+    }
+}
