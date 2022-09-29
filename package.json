@@ -15,5 +15,8 @@
   "license": "MIT",
   "devDependencies": {
     "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "mime-types": "^2.1.35"
   }
 }

@@ -1,8 +1,18 @@
 const http = require('http');
+const url = require('url');
+const fs = require('fs');
+const lookup = require('mime-types').lookup;
 const { getAllTodo, getTodoById, createTodo, updateTodoById, deleteTodoById } = require('./controllers/todoController');
 
 
 const server = http.createServer((req, res) => {
+
+
+    //handle request for send static file
+
+
+
+    // handle request for api
     if (req.url === '/api/todo' && req.method === 'GET') {
         getAllTodo(req, res);
 
@@ -18,9 +28,30 @@ const server = http.createServer((req, res) => {
         const id = req.url.split('/')[3]
         deleteTodoById(req, res, id);
     } else {
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: 'Not Found' }));
+        // res.setHeader("Content-Type", "text/html");
+        let parsedURL = url.parse(req.url, true)
+        let path = parsedURL.path.replace(/^\/+|\/+$/g, '');
+        if (path == '') {
+            path = 'index.html'
+        }
+
+        let file = __dirname + '/public/' + path;
+        fs.readFile(file, (err, content) => {
+            if (err) {
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'Not Found' }));
+            } else {
+                res.setHeader('X-Content-Type-Options', "nosnif");
+                let mime = lookup(path)
+                res.writeHead(200, { 'Content-Type': mime })
+
+                res.end(content);
+            }
+        })
+
+
     }
+
 });
 
 const PORT = process.env.PORT || 5000;
