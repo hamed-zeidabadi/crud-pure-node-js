@@ -1,4 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200&display=swap");
+/* add font family Yekan */
+@font-face {
+    font-family: "Yekan";
+    src: url("https://cdn.fontcdn.ir/Fonts/Yekan/1cdce741b89d94b75c1b52dfbfc7bc3b1eb1a8d2ecb9da71753e17219a1b8057.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Yekan";
+    src: url("https://cdn.fontcdn.ir/Fonts/Yekan/8b3d4ccc94807967874f481b0ea82d0f26cda739c2fad3b923f28d8915af064f.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+}
 
 *,
 ::after,
@@ -12,7 +25,8 @@ body {
     background: #cdcdcd;
     min-height: 100vh;
     overflow: hidden;
-    font-family: "Poppins", sans-serif;
+    font-family: "Yekan", 'Vazirmatn', sans-serif;
+    direction: rtl !important;
 }
 
 main {
@@ -23,7 +37,7 @@ main {
     background: #222;
     color: #eee;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    border-radius: 1em;
+    border-radius: 1rem;
     padding: 2rem;
 }
 
@@ -63,15 +77,15 @@ main {
     border: 1px solid #eee;
     background: #222;
     color: #eee;
-    border-radius: 0.5rem 0 0 0.5rem;
+    border-radius: 0.5rem 0.5rem;
     font-size: 1rem;
     padding: 0.3rem 0.7rem;
     flex: 1;
-    font-family: "Poppins", sans-serif;
+    font-family: "Yekan", sans-serif;
 }
 
 .btn {
-    font-family: "Poppins", sans-serif;
+    font-family: "Yekan", sans-serif;
     font-weight: bold;
 }
 
