@@ -3,6 +3,7 @@ const url = require('url');
 const fs = require('fs');
 const lookup = require('mime-types').lookup;
 const { getAllTodo, getTodoById, createTodo, updateTodoById, deleteTodoById } = require('./controllers/todoController');
+const { getAllUser, getUserById, createUser } = require('./controllers/userController');
 
 
 const server = http.createServer((req, res) => {
@@ -27,6 +28,14 @@ const server = http.createServer((req, res) => {
     } else if (req.url.match(/\/api\/todo\/([0-9]+)/) && req.method === 'DELETE') {
         const id = req.url.split('/')[3]
         deleteTodoById(req, res, id);
+    } else if (req.url === '/api/user' && req.method === 'GET') {
+        getAllUser(req, res);
+
+    } else if (req.url.match(/\/api\/user\/([0-9]+)/) && req.method === 'GET') {
+        const id = req.url.split('/')[3]
+        getUserById(req, res, id);
+    } else if (req.url === '/api/user' && req.method === 'POST') {
+        createUser(req, res);
     } else {
         // res.setHeader("Content-Type", "text/html");
         let parsedURL = url.parse(req.url, true)
