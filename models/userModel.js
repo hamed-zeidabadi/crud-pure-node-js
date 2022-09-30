@@ -18,8 +18,8 @@ const findUserByID = (id) => {
 const createUser = (user) => {
     return new Promise((resolve, reject) => {
         const newUser = { id: String(userList.length + 1), ...user }
-        UserList.push(newUser)
-        writeData('./data/user.json', userList);
+        userList.push(newUser)
+        writeData('./data/users.json', userList);
         resolve(newUser)
     })
 }

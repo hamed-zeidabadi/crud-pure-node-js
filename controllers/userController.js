@@ -1,4 +1,5 @@
 const User = require('./../models/userModel');
+const bcrypt = require('bcryptjs');
 const getAllUser = async (req, res) => {
     try {
         const allUser = await User.findAll()
@@ -32,8 +33,9 @@ const createUser = async (req, res) => {
 
         req.on('end', async () => {
             const { username, password } = JSON.parse(body)
-            const newUser = { username, password }
-            const createUser = await Todo.create(newUser)
+            const hashPassword = await bcrypt.hashSync(password, 10);
+            const newUser = { username, password: hashPassword }
+            const createUser = await User.create(newUser)
             res.writeHead(200, { 'Content-Type': 'application/json' })
             res.end(JSON.stringify(createUser))
         })
