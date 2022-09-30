@@ -8,9 +8,9 @@ const findAll = () => {
     })
 }
 
-const findByID = (id) => {
+const findByUserID = (id) => {
     return new Promise((resolve, reject) => {
-        const todo = todoList.find((p) => p.id === id);
+        const todo = todoList.find((p) => p.user_id === id);
         resolve(todo);
     })
 }
@@ -43,5 +43,5 @@ const remove = (id) => {
 
 
 module.exports = {
-    findAll, findByID, create, update, remove
+    findAll, findByUserID, create, update, remove
 }

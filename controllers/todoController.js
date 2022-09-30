@@ -9,9 +9,9 @@ const getAllTodo = async (req, res) => {
     }
 }
 
-const getTodoById = async (req, res, id) => {
+const getTodoByUserId = async (req, res, id) => {
     try {
-        const todo = await Todo.findByID(id);
+        const todo = await Todo.findByUserID(id);
         if (!todo) {
             res.writeHead(404, { 'Content-Type': 'application/json' })
             res.end(JSON.stringify({ message: 'Todo Not Found !' }))
@@ -97,7 +97,7 @@ const deleteTodoById = async (req, res, id) => {
 
 module.exports = {
     getAllTodo,
-    getTodoById,
+    getTodoByUserId,
     createTodo,
     updateTodoById,
     deleteTodoById

@@ -27,5 +27,5 @@ const createUser = (user) => {
 
 
 module.exports = {
-    findAllUser: findAll, findUserByID: find, createUser: create
+    findAll: findAllUser, find: findUserByID, create: createUser
 }
