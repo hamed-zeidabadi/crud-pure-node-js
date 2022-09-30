@@ -36,6 +36,8 @@ const server = http.createServer((req, res) => {
         getUserById(req, res, id);
     } else if (req.url === '/api/user' && req.method === 'POST') {
         createUser(req, res);
+    } else if (req.url === '/api/login' && req.method === 'POST') {
+        loginUser(req, res);
     } else {
         // res.setHeader("Content-Type", "text/html");
         let parsedURL = url.parse(req.url, true)

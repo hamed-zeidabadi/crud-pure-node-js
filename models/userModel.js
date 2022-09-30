@@ -8,6 +8,12 @@ const findAllUser = () => {
     })
 }
 
+const findUser = (username) => {
+    return new Promise((resolve, reject) => {
+        const user = userList.find((p) => p.username === username);
+        resolve(user);
+    })
+}
 const findUserByID = (id) => {
     return new Promise((resolve, reject) => {
         const user = userList.find((p) => p.id === id);
@@ -27,5 +33,5 @@ const createUser = (user) => {
 
 
 module.exports = {
-    findAll: findAllUser, find: findUserByID, create: createUser
+    findAll: findAllUser, find: findUserByID, findUser: findUser, create: createUser
 }
