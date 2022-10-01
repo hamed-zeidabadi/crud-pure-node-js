@@ -34,11 +34,25 @@ const createUser = async (req, res) => {
 
         req.on('end', async () => {
             const { username, password } = JSON.parse(body)
-            const hashPassword = await bcrypt.hashSync(password, 10);
-            const newUser = { username, password: hashPassword }
-            const createUser = await User.create(newUser)
-            res.writeHead(200, { 'Content-Type': 'application/json' })
-            res.end(JSON.stringify(createUser))
+            const user = await User.findUser(username);
+            if (user) {
+                res.writeHead(401, { 'Content-Type': 'application/json' })
+                res.end(JSON.stringify({ message: 'Username Already Exists' }))
+            } else if (username.length < 6) {
+                res.writeHead(401, { 'Content-Type': 'application/json' })
+                res.end(JSON.stringify({ message: 'Username Must Be More Than 6 Words' }))
+            } else if (password.length < 6) {
+                res.writeHead(401, { 'Content-Type': 'application/json' })
+                res.end(JSON.stringify({ message: 'Password Must Be More Than 6 Words' }))
+            } else {
+                const safeUser = String(username.trim());
+                const safePass = String(password.trim())
+                const hashPassword = bcrypt.hashSync(safePass, 10);
+                const newUser = { username: safeUser, password: hashPassword }
+                const createUser = await User.create(newUser)
+                res.writeHead(200, { 'Content-Type': 'application/json' })
+                res.end(JSON.stringify(createUser))
+            }
         })
 
 
@@ -62,7 +76,7 @@ const loginUser = async (req, res) => {
                 res.end(JSON.stringify({ message: 'User Not Found !' }))
             } else {
                 const isValid = await bcrypt.compare(password, user.password);
-                console.log('isVal:',isValid);
+                console.log('isVal:', isValid);
                 if (isValid) {
                     const JWT_SECRET = "Hamed@123456789#"
                     const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET);
