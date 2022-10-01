@@ -199,8 +199,8 @@ const login = document.querySelector('.login')
 const main = document.querySelector('#main')
 
 login.addEventListener('click', () => {
-    login.classList.add('d-none')
-    main.classList.add('d-show')
+    // login.classList.add('d-none')
+    // main.classList.add('d-show')
 
 
 })
