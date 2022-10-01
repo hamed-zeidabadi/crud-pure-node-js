@@ -200,6 +200,11 @@ const register = document.querySelector("#register");
 const main = document.querySelector("#main");
 const swichBtn1 = document.querySelector(".swich1");
 const swichBtn2 = document.querySelector(".swich2");
+const register_form = document.querySelector("#register_form");
+const registerBtn = document.querySelector("#register_btn");
+const username1 = document.querySelector("#username1");
+const password1 = document.querySelector("#password1");
+
 swichBtn1.addEventListener("click", () => {
   register.classList.add("d-none");
   login.classList.add("d-show");
@@ -208,3 +213,20 @@ swichBtn2.addEventListener("click", () => {
   register.classList.remove("d-none");
   login.classList.remove("d-show");
 });
+
+// submit register form
+register_form.addEventListener("submit", registerUser);
+function registerUser(e) {
+  e.preventDefault();
+  const user = String(username1.value.trim());
+  const pass = String(password1.value.trim());
+  if (user.length < 6) {
+    displayAlert("  نام کاربری باید بیشتر از 6 کلمه باشد! ", "danger");
+  } else if (user == "aliali") {
+    displayAlert("  نام کاربری تکراری است !  ", "danger");
+  } else if (pass.length < 6) {
+    displayAlert("  کلمه عبور باید بیشتر از 6 کلمه باشد!  ", "danger");
+  } else {
+    displayAlert("با موفقیت ثبت شد", "success");
+  }
+}

@@ -15,13 +15,14 @@
 
   <body>
     <div id="register">
-      <form action="javascript:void(0);" class="login-form">
+      <form action="javascript:void(0);" id="register_form" class="login-form">
+        <p class="alert"></p>
         <h1>ثبت نام در سایت</h1>
         <div class="form-input-material">
           <input
             type="text"
             name="username"
-            id="username"
+            id="username1"
             placeholder=" "
             autocomplete="off"
             required
@@ -33,7 +34,7 @@
           <input
             type="password"
             name="password"
-            id="password"
+            id="password1"
             placeholder=" "
             autocomplete="off"
             required
@@ -41,7 +42,9 @@
           />
           <label for="password">کلمه عبور</label>
         </div>
-        <button type="submit" class="btn btn-ghost">ثبت نام</button>
+        <button id="register_btn" type="submit" class="btn btn-ghost">
+          ثبت نام
+        </button>
         <p class="swich1">حساب کاربری دارید ؟ برای ورود کلیک کنید</p>
       </form>
     </div>
@@ -52,7 +55,7 @@
           <input
             type="text"
             name="username"
-            id="username"
+            id="username2"
             placeholder=" "
             autocomplete="off"
             required
@@ -64,7 +67,7 @@
           <input
             type="password"
             name="password"
-            id="password"
+            id="password2"
             placeholder=" "
             autocomplete="off"
             required
