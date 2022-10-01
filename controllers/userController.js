@@ -61,15 +61,13 @@ const loginUser = async (req, res) => {
                 res.writeHead(401, { 'Content-Type': 'application/json' })
                 res.end(JSON.stringify({ message: 'User Not Found !' }))
             } else {
-                if (bcrypt.compare(password, user.password)) {
+                const isValid = await bcrypt.compare(password, user.password);
+                console.log('isVal:',isValid);
+                if (isValid) {
                     const JWT_SECRET = "Hamed@123456789#"
                     const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET);
-
-
                     res.writeHead(200, { 'Content-Type': 'application/json' })
-                    res.end(JSON.stringify(createUser))
-                    res.writeHead(200, { 'Content-Type': 'application/json' })
-                    res.end(JSON.stringify(user))
+                    res.end(JSON.stringify(token));
                 } else {
                     res.writeHead(401, { 'Content-Type': 'application/json' })
                     res.end(JSON.stringify({ message: 'Username or Password is Incorrect' }))
@@ -90,6 +88,6 @@ const loginUser = async (req, res) => {
 module.exports = {
     getAllUser,
     getUserById,
-    createUser, loginUser
-
+    createUser,
+    loginUser
 }

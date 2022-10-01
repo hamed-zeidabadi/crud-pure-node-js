@@ -3,7 +3,7 @@ const url = require('url');
 const fs = require('fs');
 const lookup = require('mime-types').lookup;
 const { getAllTodo, getTodoByUserId, createTodo, updateTodoById, deleteTodoById } = require('./controllers/todoController');
-const { getAllUser, getUserById, createUser } = require('./controllers/userController');
+const { getAllUser, getUserById, createUser, loginUser } = require('./controllers/userController');
 
 
 const server = http.createServer((req, res) => {
