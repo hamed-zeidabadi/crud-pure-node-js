@@ -259,12 +259,13 @@ function registerUser(e) {
       if (!response.ok) {
         displayAlert(" اوووپس ! مشکلی پیش اومده", "danger");
       } else {
-        displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
-        register.classList.remove("d-show");
-        login.classList.remove("d-show");
-        register.classList.add("d-none");
-        login.classList.add("d-none");
-        main.classList.add("d-show");
+        // اینجا باید لاگین کنیم
+        // displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
+        // register.classList.remove("d-show");
+        // login.classList.remove("d-show");
+        // register.classList.add("d-none");
+        // login.classList.add("d-none");
+        // main.classList.add("d-show");
       }
     });
   }
