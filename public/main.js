@@ -206,7 +206,7 @@ const username1 = document.querySelector("#username1");
 const password1 = document.querySelector("#password1");
 const username2 = document.querySelector("#username2");
 const password2 = document.querySelector("#password2");
-
+const endpoint = "http://localhost:5000/api/";
 swichBtn1.addEventListener("click", () => {
   register.classList.add("d-none");
   login.classList.add("d-show");
@@ -232,6 +232,20 @@ function registerUser(e) {
   } else if (pass.length < 6) {
     displayAlert("  کلمه عبور باید بیشتر از 6 کلمه باشد!  ", "danger");
   } else {
+    fetch(`${endpoint}+'user'`, {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: user,
+        password: pass,
+      }),
+    }).then((res) => {
+      console.log("res:", res);
+    });
+
     displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
     register.classList.remove("d-show");
     login.classList.remove("d-show");
