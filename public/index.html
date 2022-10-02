@@ -14,95 +14,100 @@
   </head>
 
   <body>
-    <div id="register">
-      <form action="javascript:void(0);" id="register_form" class="login-form">
-        <p class="alert"></p>
-        <h1>ثبت نام در سایت</h1>
-        <div class="form-input-material">
-          <input
-            type="text"
-            name="username"
-            id="username1"
-            placeholder=" "
-            autocomplete="off"
-            required
-            class="form-control-material"
-          />
-          <label for="username">نام کاربری</label>
-        </div>
-        <div class="form-input-material">
-          <input
-            type="password"
-            name="password"
-            id="password1"
-            placeholder=" "
-            autocomplete="off"
-            required
-            class="form-control-material"
-          />
-          <label for="password">کلمه عبور</label>
-        </div>
-        <button id="register_btn" type="submit" class="btn btn-ghost">
-          ثبت نام
-        </button>
-        <p class="swich1">حساب کاربری دارید ؟ برای ورود کلیک کنید</p>
-      </form>
-    </div>
-    <div id="login">
-      <form action="javascript:void(0);" class="login-form">
-        <h1>ورود به سایت</h1>
-        <div class="form-input-material">
-          <input
-            type="text"
-            name="username"
-            id="username2"
-            placeholder=" "
-            autocomplete="off"
-            required
-            class="form-control-material"
-          />
-          <label for="username">نام کاربری</label>
-        </div>
-        <div class="form-input-material">
-          <input
-            type="password"
-            name="password"
-            id="password2"
-            placeholder=" "
-            autocomplete="off"
-            required
-            class="form-control-material"
-          />
-          <label for="password">کلمه عبور</label>
-        </div>
-        <button type="submit" class="btn btn-ghost">ورود</button>
-        <p class="swich2">حساب کاربری ندارید ؟ ثبت نام کنید !</p>
-      </form>
-    </div>
-
     <main id="main">
-      <form class="top">
-        <p class="alert"></p>
-        <h3 class="title">لیست کارها</h3>
-        <div class="control">
-          <input type="text" id="entry" placeholder="چیزی بنویس !" />
-          <button type="submit" class="btn submit-btn">ثبت</button>
-          <button type="button" class="btn cancel-btn d-none">لغو</button>
+      <p class="alert"></p>
+      <div id="todo">
+        <form class="top">
+          <h3 class="title">لیست کارها</h3>
+          <div class="control">
+            <input type="text" id="entry" placeholder="چیزی بنویس !" />
+            <button type="submit" class="btn submit-btn">ثبت</button>
+            <button type="button" class="btn cancel-btn d-none">لغو</button>
+          </div>
+        </form>
+        <div class="bottom">
+          <ul class="list-container">
+            <li class="list-item">
+              <p class="text">لورم ایپسوم ساختگی متن</p>
+              <i class="fas fa-edit"></i>
+              <i class="fas fa-check"></i>
+              <i class="fas fa-trash-alt"></i>
+            </li>
+          </ul>
+          <button class="btn clear-btn d-none">همه رو حذف کن !</button>
         </div>
-      </form>
+      </div>
 
-      <div class="bottom">
-        <ul class="list-container">
-          <li class="list-item">
-            <p class="text">لورم ایپسوم ساختگی متن</p>
-            <i class="fas fa-edit"></i>
-            <i class="fas fa-check"></i>
-            <i class="fas fa-trash-alt"></i>
-          </li>
-        </ul>
-        <button class="btn clear-btn d-none">همه رو حذف کن !</button>
+      <div id="register">
+        <form
+          action="javascript:void(0);"
+          id="register_form"
+          class="login-form"
+        >
+          <h1>ثبت نام در سایت</h1>
+          <div class="form-input-material">
+            <input
+              type="text"
+              name="username"
+              id="username1"
+              placeholder=" "
+              autocomplete="off"
+              required
+              class="form-control-material"
+            />
+            <label for="username">نام کاربری</label>
+          </div>
+          <div class="form-input-material">
+            <input
+              type="password"
+              name="password"
+              id="password1"
+              placeholder=" "
+              autocomplete="off"
+              required
+              class="form-control-material"
+            />
+            <label for="password">کلمه عبور</label>
+          </div>
+          <button id="register_btn" type="submit" class="btn btn-ghost">
+            ثبت نام
+          </button>
+          <p class="swich1">حساب کاربری دارید ؟ برای ورود کلیک کنید</p>
+        </form>
+      </div>
+      <div id="login">
+        <form action="javascript:void(0);" id="login_form" class="login-form">
+          <h1>ورود به سایت</h1>
+          <div class="form-input-material">
+            <input
+              type="text"
+              name="username"
+              id="username2"
+              placeholder=" "
+              autocomplete="off"
+              required
+              class="form-control-material"
+            />
+            <label for="username">نام کاربری</label>
+          </div>
+          <div class="form-input-material">
+            <input
+              type="password"
+              name="password"
+              id="password2"
+              placeholder=" "
+              autocomplete="off"
+              required
+              class="form-control-material"
+            />
+            <label for="password">کلمه عبور</label>
+          </div>
+          <button type="submit" class="btn btn-ghost">ورود</button>
+          <p class="swich2">حساب کاربری ندارید ؟ ثبت نام کنید !</p>
+        </form>
       </div>
     </main>
+
     <script src="fontawesome.js"></script>
     <script src="main.js"></script>
     <script src="https://kit.fontawesome.com/2e032899e0.js"></script>

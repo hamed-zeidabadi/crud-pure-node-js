@@ -63,7 +63,7 @@ function displayAlert(text, action) {
   setTimeout(() => {
     alert_p.textContent = "";
     alert_p.classList.remove(`alert-${action}`);
-  }, 1000);
+  }, 2000);
 }
 
 function createListItem(id, val) {
@@ -197,13 +197,15 @@ function setupItems() {
 const loginBtn = document.querySelector("#login-btn");
 const login = document.querySelector("#login");
 const register = document.querySelector("#register");
-const main = document.querySelector("#main");
+const main = document.querySelector("#todo");
 const swichBtn1 = document.querySelector(".swich1");
 const swichBtn2 = document.querySelector(".swich2");
-const register_form = document.querySelector("#register_form");
-const registerBtn = document.querySelector("#register_btn");
+const registerForm = document.querySelector("#register_form");
+const loginForm = document.querySelector("#login_form");
 const username1 = document.querySelector("#username1");
 const password1 = document.querySelector("#password1");
+const username2 = document.querySelector("#username2");
+const password2 = document.querySelector("#password2");
 
 swichBtn1.addEventListener("click", () => {
   register.classList.add("d-none");
@@ -215,7 +217,10 @@ swichBtn2.addEventListener("click", () => {
 });
 
 // submit register form
-register_form.addEventListener("submit", registerUser);
+registerForm.addEventListener("submit", registerUser);
+// submit login form
+loginForm.addEventListener("submit", loginUser);
+
 function registerUser(e) {
   e.preventDefault();
   const user = String(username1.value.trim());
@@ -227,6 +232,31 @@ function registerUser(e) {
   } else if (pass.length < 6) {
     displayAlert("  کلمه عبور باید بیشتر از 6 کلمه باشد!  ", "danger");
   } else {
-    displayAlert("با موفقیت ثبت شد", "success");
+    displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
+    register.classList.remove("d-show");
+    login.classList.remove("d-show");
+    register.classList.add("d-none");
+    login.classList.add("d-none");
+    main.classList.add("d-show");
+  }
+}
+
+function loginUser(e) {
+  e.preventDefault();
+  const user = String(username2.value.trim());
+  const pass = String(password2.value.trim());
+  if (user.length < 6) {
+    displayAlert("  نام کاربری باید بیشتر از 6 کلمه باشد! ", "danger");
+  } else if (user == "aliali") {
+    displayAlert("  نام کاربری تکراری است !  ", "danger");
+  } else if (pass.length < 6) {
+    displayAlert("  کلمه عبور باید بیشتر از 6 کلمه باشد!  ", "danger");
+  } else {
+    displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
+    register.classList.remove("d-show");
+    login.classList.remove("d-show");
+    register.classList.add("d-none");
+    login.classList.add("d-none");
+    main.classList.add("d-show");
   }
 }
