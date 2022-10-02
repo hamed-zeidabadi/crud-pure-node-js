@@ -18,9 +18,16 @@ const {
 
 const server = http.createServer((req, res) => {
   //allow CORS
-  response.setHeader("Access-Control-Allow-Origin", "*");
-  response.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET");
-  response.setHeader("Access-Control-Max-Age", 2592000); // 30 days
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
+    "Access-Control-Max-Age": 2592000, // 30 days
+  };
+  if (req.method === "OPTIONS") {
+    res.writeHead(204, headers);
+    res.end();
+    return;
+  }
 
   //handle request for send static file
 

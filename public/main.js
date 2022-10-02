@@ -206,6 +206,7 @@ const username1 = document.querySelector("#username1");
 const password1 = document.querySelector("#password1");
 const username2 = document.querySelector("#username2");
 const password2 = document.querySelector("#password2");
+let listUser = [];
 const endpoint = "http://localhost:5000/api/";
 swichBtn1.addEventListener("click", () => {
   register.classList.add("d-none");
@@ -221,18 +222,30 @@ registerForm.addEventListener("submit", registerUser);
 // submit login form
 loginForm.addEventListener("submit", loginUser);
 
+//get all user from server
+async function getListUsers() {
+  let response = await fetch(`${endpoint}user`);
+  const data = await response.json();
+  const usernames = data.map((i) => i.username);
+  listUser = usernames;
+}
+getListUsers();
+
 function registerUser(e) {
   e.preventDefault();
+
   const user = String(username1.value.trim());
   const pass = String(password1.value.trim());
+  //check duplicate user
+  const userExist = listUser.includes(user);
   if (user.length < 6) {
     displayAlert("  نام کاربری باید بیشتر از 6 کلمه باشد! ", "danger");
-  } else if (user == "aliali") {
+  } else if (userExist) {
     displayAlert("  نام کاربری تکراری است !  ", "danger");
   } else if (pass.length < 6) {
     displayAlert("  کلمه عبور باید بیشتر از 6 کلمه باشد!  ", "danger");
   } else {
-    fetch(`${endpoint}+'user'`, {
+    fetch(`${endpoint}user`, {
       method: "post",
       headers: {
         Accept: "application/json",
@@ -242,16 +255,18 @@ function registerUser(e) {
         username: user,
         password: pass,
       }),
-    }).then((res) => {
-      console.log("res:", res);
+    }).then((response) => {
+      if (!response.ok) {
+        displayAlert(" اوووپس ! مشکلی پیش اومده", "danger");
+      } else {
+        displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
+        register.classList.remove("d-show");
+        login.classList.remove("d-show");
+        register.classList.add("d-none");
+        login.classList.add("d-none");
+        main.classList.add("d-show");
+      }
     });
-
-    displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
-    register.classList.remove("d-show");
-    login.classList.remove("d-show");
-    register.classList.add("d-none");
-    login.classList.add("d-none");
-    main.classList.add("d-show");
   }
 }
 
