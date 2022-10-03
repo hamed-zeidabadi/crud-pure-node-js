@@ -5,6 +5,20 @@ const submitBtn = document.querySelector(".submit-btn");
 const ul = document.querySelector(".list-container");
 const clearBtn = document.querySelector(".clear-btn");
 const cancelBtn = document.querySelector(".cancel-btn");
+const loginBtn = document.querySelector("#login-btn");
+const login = document.querySelector("#login");
+const register = document.querySelector("#register");
+const main = document.querySelector("#todo");
+const swichBtn1 = document.querySelector(".swich1");
+const swichBtn2 = document.querySelector(".swich2");
+const registerForm = document.querySelector("#register_form");
+const loginForm = document.querySelector("#login_form");
+const username1 = document.querySelector("#username1");
+const password1 = document.querySelector("#password1");
+const username2 = document.querySelector("#username2");
+const password2 = document.querySelector("#password2");
+const endpoint = "http://localhost:5000/api/";
+let listUser = [];
 // edit option
 let editElement;
 let editFlag = false;
@@ -25,20 +39,43 @@ cancelBtn.addEventListener("click", () => {
   });
 });
 
+// submit register form
+registerForm.addEventListener("submit", registerUser);
+// submit login form
+loginForm.addEventListener("submit", loginUser);
+//handle user after login
+localStorage.getItem("key") ? handleAfterLogin() : null;
+
 function addItem(e) {
   e.preventDefault();
   let val = entry.value;
   let id = new Date().getTime().toString();
-
+  console.log(val, "val");
   if (val && !editFlag) {
-    createListItem(id, val);
-    clearBtn.classList.remove("d-none");
-    displayAlert("با موفقیت ثبت شد", "success");
-
-    //set local storage
-    addToLocalStorage(id, val);
-
-    setBackToDefault();
+    fetch(`${endpoint}todo`, {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: 1,
+        title: "new todo!",
+        todo: val,
+        isActive: true,
+      }),
+    }).then((response) => {
+      if (!response.ok) {
+        displayAlert(" اوووپس ! مشکلی پیش اومده", "danger");
+      } else {
+        clearBtn.classList.remove("d-none");
+        //set local storage
+        addToLocalStorage(id, val);
+        setBackToDefault();
+        displayAlert("با موفقیت ثبت شد", "success");
+        location.reload();
+      }
+    });
   } else if (val && editFlag) {
     //4to B
     editElement.innerText = val;
@@ -92,7 +129,6 @@ function setBackToDefault() {
   submitBtn.textContent = "ثبت";
   cancelBtn.classList.add("d-none");
 }
-
 //2do
 function clearItems() {
   clearBtn.classList.add("d-none");
@@ -104,7 +140,6 @@ function clearItems() {
   }
   displayAlert("لیست خالیه :(", "danger");
   setBackToDefault();
-
   // you can use  localStorage.removeItem("list"); pero se´re más semántico
   localStorage.clear(); //mueve todos los keys.. en este caso solo un key que es "list"
 }
@@ -194,20 +229,6 @@ function setupItems() {
 
 //Login
 
-const loginBtn = document.querySelector("#login-btn");
-const login = document.querySelector("#login");
-const register = document.querySelector("#register");
-const main = document.querySelector("#todo");
-const swichBtn1 = document.querySelector(".swich1");
-const swichBtn2 = document.querySelector(".swich2");
-const registerForm = document.querySelector("#register_form");
-const loginForm = document.querySelector("#login_form");
-const username1 = document.querySelector("#username1");
-const password1 = document.querySelector("#password1");
-const username2 = document.querySelector("#username2");
-const password2 = document.querySelector("#password2");
-let listUser = [];
-const endpoint = "http://localhost:5000/api/";
 swichBtn1.addEventListener("click", () => {
   register.classList.add("d-none");
   login.classList.add("d-show");
@@ -217,12 +238,6 @@ swichBtn2.addEventListener("click", () => {
   login.classList.remove("d-show");
 });
 
-// submit register form
-registerForm.addEventListener("submit", registerUser);
-// submit login form
-loginForm.addEventListener("submit", loginUser);
-//handle user after login
-localStorage.getItem("key") ? handleAfterLogin() : null;
 //get all user from server
 async function getListUsers() {
   let response = await fetch(`${endpoint}user`);
@@ -234,7 +249,6 @@ getListUsers();
 
 function registerUser(e) {
   e.preventDefault();
-
   const user = String(username1.value.trim());
   const pass = String(password1.value.trim());
   //check duplicate user
@@ -260,7 +274,6 @@ function registerUser(e) {
       if (!response.ok) {
         displayAlert(" اوووپس ! مشکلی پیش اومده", "danger");
       } else {
-
         fetch(`${endpoint}login`, {
           method: "post",
           headers: {
@@ -275,19 +288,21 @@ function registerUser(e) {
           if (!response.ok) {
             displayAlert(" اوووپس ! مشکلی پیش اومده", "danger");
           } else {
-            response.json().then(data => {
+            response.json().then((data) => {
               console.log(data);
               localStorage.setItem("key", JSON.stringify(data));
-              displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
+              displayAlert(
+                "  تبریک ! شما با موفقیت وارد سایت شدی !  ",
+                "success"
+              );
               register.classList.remove("d-show");
               login.classList.remove("d-show");
               register.classList.add("d-none");
               login.classList.add("d-none");
               main.classList.add("d-show");
-            })
+            });
           }
         });
-
       }
     });
   }
@@ -321,7 +336,7 @@ function loginUser(e) {
       if (!response.ok) {
         displayAlert(" اوووپس ! مشکلی پیش اومده", "danger");
       } else {
-        response.json().then(data => {
+        response.json().then((data) => {
           console.log(data);
           localStorage.setItem("key", JSON.stringify(data));
           displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
@@ -330,15 +345,14 @@ function loginUser(e) {
           register.classList.add("d-none");
           login.classList.add("d-none");
           main.classList.add("d-show");
-        })
+        });
       }
     });
-
   }
 }
 
 function handleAfterLogin() {
-  console.log('localstrogae');
+  console.log("localstrogae");
   displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
   register.classList.remove("d-show");
   login.classList.remove("d-show");

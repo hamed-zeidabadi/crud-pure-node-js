@@ -30,7 +30,6 @@ const server = http.createServer((req, res) => {
   }
 
   //handle request for send static file
-
   // handle request for api
   if (req.url === "/api/todo" && req.method === "GET") {
     getAllTodo(req, res);
