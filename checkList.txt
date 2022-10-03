@@ -1,8 +1,0 @@
-create + 
-read  +
-update +
-delete  +
-auth  -
-front  -
-comment -
-cleanCode -
