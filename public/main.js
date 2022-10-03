@@ -221,7 +221,8 @@ swichBtn2.addEventListener("click", () => {
 registerForm.addEventListener("submit", registerUser);
 // submit login form
 loginForm.addEventListener("submit", loginUser);
-
+//handle user after login
+localStorage.getItem("key") ? handleAfterLogin() : null;
 //get all user from server
 async function getListUsers() {
   let response = await fetch(`${endpoint}user`);
@@ -259,13 +260,34 @@ function registerUser(e) {
       if (!response.ok) {
         displayAlert(" اوووپس ! مشکلی پیش اومده", "danger");
       } else {
-        // اینجا باید لاگین کنیم
-        // displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
-        // register.classList.remove("d-show");
-        // login.classList.remove("d-show");
-        // register.classList.add("d-none");
-        // login.classList.add("d-none");
-        // main.classList.add("d-show");
+
+        fetch(`${endpoint}login`, {
+          method: "post",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: user,
+            password: pass,
+          }),
+        }).then((response) => {
+          if (!response.ok) {
+            displayAlert(" اوووپس ! مشکلی پیش اومده", "danger");
+          } else {
+            response.json().then(data => {
+              console.log(data);
+              localStorage.setItem("key", JSON.stringify(data));
+              displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
+              register.classList.remove("d-show");
+              login.classList.remove("d-show");
+              register.classList.add("d-none");
+              login.classList.add("d-none");
+              main.classList.add("d-show");
+            })
+          }
+        });
+
       }
     });
   }
@@ -275,18 +297,52 @@ function loginUser(e) {
   e.preventDefault();
   const user = String(username2.value.trim());
   const pass = String(password2.value.trim());
+  //check user exist
+  const userExist = listUser.includes(user);
+  console.log(listUser);
   if (user.length < 6) {
     displayAlert("  نام کاربری باید بیشتر از 6 کلمه باشد! ", "danger");
-  } else if (user == "aliali") {
-    displayAlert("  نام کاربری تکراری است !  ", "danger");
+  } else if (!userExist) {
+    displayAlert(" شما باید ثبت نام کنی ! ", "danger");
   } else if (pass.length < 6) {
     displayAlert("  کلمه عبور باید بیشتر از 6 کلمه باشد!  ", "danger");
   } else {
-    displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
-    register.classList.remove("d-show");
-    login.classList.remove("d-show");
-    register.classList.add("d-none");
-    login.classList.add("d-none");
-    main.classList.add("d-show");
+    fetch(`${endpoint}login`, {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: user,
+        password: pass,
+      }),
+    }).then((response) => {
+      if (!response.ok) {
+        displayAlert(" اوووپس ! مشکلی پیش اومده", "danger");
+      } else {
+        response.json().then(data => {
+          console.log(data);
+          localStorage.setItem("key", JSON.stringify(data));
+          displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
+          register.classList.remove("d-show");
+          login.classList.remove("d-show");
+          register.classList.add("d-none");
+          login.classList.add("d-none");
+          main.classList.add("d-show");
+        })
+      }
+    });
+
   }
+}
+
+function handleAfterLogin() {
+  console.log('localstrogae');
+  displayAlert("  تبریک ! شما با موفقیت وارد سایت شدی !  ", "success");
+  register.classList.remove("d-show");
+  login.classList.remove("d-show");
+  register.classList.add("d-none");
+  login.classList.add("d-none");
+  main.classList.add("d-show");
 }
